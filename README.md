@@ -1,2 +1,2 @@
-# teste-cypress
+# Cypress
 This is a test (:
