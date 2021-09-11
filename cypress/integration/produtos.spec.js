@@ -33,7 +33,7 @@ context('GET /produtos', () => {
             .then( response => {
                     expect(response.status).to.eq(400)
                     cy.log(JSON.stringify(response.body))
-                    expect(response.body).to.have.key('errors')
+                    expect(JSON.stringify(response.body)).to.be.eq('{"errors":[{"value":"texto","msg":"Para consultar um produto é preciso informar seu id, que precisa ser um valor numérico","param":"id","location":"params"}]}')
             });
         });
 
