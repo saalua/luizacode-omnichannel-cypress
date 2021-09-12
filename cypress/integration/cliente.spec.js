@@ -81,4 +81,3 @@ describe('Endpoints para cadastro e login de cliente', () => {
     });
 });
 
-

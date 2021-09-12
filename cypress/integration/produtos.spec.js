@@ -2,53 +2,57 @@
 
 const url = Cypress.config("baseUrl");
 
-context('GET /produtos', () => {
-    describe('Endpoints de produtos', () => {
-        it('deve retornar todos os produtos', () => {
-            cy.request('GET', `${url}/produtos`)
-                .should((response) => {
-            cy.log(JSON.stringify(response.body));
+describe('Endpoints de produtos', () => {
+    it('deve retornar todos os produtos', () => {
+        cy.request({
+            method: 'GET',
+            url: `${url}/produtos`,
+            failOnStatusCode: false
+        }).should((response) => {
             expect(response.status).to.eq(200);
-            });
-        });
-
-
-        it('deve retornar um produto por id', () => {
-            cy.request('GET', `${url}/produtos/1`)
-                .should((response) => {                                                         
+            expect(response.statusText).to.eq('OK');
+            expect(response.body).not.to.be.null
             cy.log(JSON.stringify(response.body));
-            expect(response.status).to.eq(200);
-            expect(response.body).to.have.all.keys('id', 'produto', 'categoria', 'valor', 'descricao', 'marca');
-            });
         });
     });
 
-    describe('Validação de erros nos endpoints de produtos', () => { 
-        it('deve retornar mensagem de erro ao passar atributo inválido', () => {
-            cy.request({
-                method: 'GET',
-                    url: `${url}/produtos/texto`, 
-                    failOnStatusCode: false
-            })
-            .then( response => {
-                    expect(response.status).to.eq(400)
-                    cy.log(JSON.stringify(response.body))
-                    expect(JSON.stringify(response.body)).to.be.eq('{"errors":[{"value":"texto","msg":"Para consultar um produto é preciso informar seu id, que precisa ser um valor numérico","param":"id","location":"params"}]}')
-            });
+    it('deve retornar um produto por id', () => {
+        cy.request({
+            method: 'GET',
+            url: `${url}/produtos/1`,
+            failOnStatusCode: false
+        }).should((response) => {                                                         
+            expect(response.status).to.eq(200);
+            expect(response.statusText).to.eq('OK');
+            expect(JSON.stringify(response.body)).to.be.eq('{"data":{"id":1,"produto":"SMARTPHONE SAMSUNG GALAXY A32","categoria":"CELULARES E SMARTPHONES","valor":1579,"descricao":"SMARTPHONE SAMSUNG GALAXY A32 128GB VIOLETA 4G","marca":"SAMSUNG"}}');
+            cy.log(JSON.stringify(response.body));
         });
+    });
+
+    it('deve retornar mensagem de erro ao passar atributo inválido', () => {
+        cy.request({
+            method: 'GET',
+            url: `${url}/produtos/invalido`, 
+            failOnStatusCode: false
+        }).should((response) => {
+            expect(response.status).to.eq(400);
+            expect(response.statusText).to.eq('Bad Request');
+            expect(JSON.stringify(response.body)).to.be.eq('{"errors":[{"param":"idProduto","location":"path","msg":"idProduto deve ser númerico (invalido)"}]}')
+            cy.log(JSON.stringify(response.body));
+        });
+    });
 
 
-        it('deve retornar mensagem de erro quando não existir o produto na lista', () => {
-            cy.request({
-                method: 'GET',
-                    url: `${url}/produtos/78`, 
-                    failOnStatusCode: false
-            })
-            .then( response => {
-                    expect(response.status).to.eq(404)
-                    cy.log(JSON.stringify(response.body))
-                    expect(response.body).to.be.eq("Produto não encontrado")
-            });
+    it('deve retornar mensagem de erro quando não existir o produto na lista', () => {
+        cy.request({
+            method: 'GET',
+            url: `${url}/produtos/7784`, 
+            failOnStatusCode: false
+        }).should((response) => {
+                expect(response.status).to.eq(400);
+                expect(response.statusText).to.eq('Bad Request');
+                expect(JSON.stringify(response.body)).to.be.eq('{"errors":[{"param":"idProduto","location":"path","msg":"Produto não encontrado (78)"}]}');
+                cy.log(JSON.stringify(response.body));
         });
     });
 });
