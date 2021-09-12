@@ -20,7 +20,7 @@ describe('Endpoints para cadastro e login de cliente', () => {
             expect(response.body).to.be.eq('Cliente cadastrado com sucesso')
             cy.log(response.body)
         });
-    });
+    });  
 
     it('deve retornar erro ao cadastrar cliente com email ja existente', () => {
         cy.request({

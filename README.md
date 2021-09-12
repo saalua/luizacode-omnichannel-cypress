@@ -11,6 +11,12 @@
 > Testes automatizados para a API de ommni channel desenvolvida pela squad Spack Girls durante a aceleração Luiza < Code >. 
 
 ## 💻 Preview
+![demo][demo]
+
+
+## Repositório da API 
+- https://github.com/saalua/luizacode-omnichannel
+
 
 ## 🤝 Squad SPARCK GIRLS
 
@@ -80,4 +86,7 @@
     </td>
   </tr>
 </table>
+
+[demo]: img/demo.gif
+
 

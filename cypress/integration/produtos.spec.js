@@ -40,7 +40,7 @@ describe('Endpoints de produtos', () => {
             expect(JSON.stringify(response.body)).to.be.eq('{"errors":[{"param":"idProduto","location":"path","msg":"idProduto deve ser númerico (invalido)"}]}')
             cy.log(JSON.stringify(response.body));
         });
-    });
+    }); 
 
 
     it('deve retornar mensagem de erro quando não existir o produto na lista', () => {
@@ -51,7 +51,7 @@ describe('Endpoints de produtos', () => {
         }).should((response) => {
                 expect(response.status).to.eq(400);
                 expect(response.statusText).to.eq('Bad Request');
-                expect(JSON.stringify(response.body)).to.be.eq('{"errors":[{"param":"idProduto","location":"path","msg":"Produto não encontrado (78)"}]}');
+                expect(JSON.stringify(response.body)).to.be.eq('{"errors":[{"param":"idProduto","location":"path","msg":"Produto não encontrado (7784)"}]}');
                 cy.log(JSON.stringify(response.body));
         });
     });
